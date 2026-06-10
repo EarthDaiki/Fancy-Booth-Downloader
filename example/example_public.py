@@ -11,7 +11,7 @@ if __name__ == '__main__':
     Adjust these variables
     '''
     app = MainPublicDL()
-    url = 'https://photos.fancybooths.com/Shoreline-Prom-2025'
+    url = 'https://photos.fancybooths.com/Shoreline-Prom-2026'
     root_dir = r'D:\fancybooths'
     folder_number_list = [1]
     app.download(url, root_dir, folder_number_list)
