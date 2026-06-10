@@ -7,20 +7,35 @@ from session_manager import SessionManager
 class Api:
     def __init__(self, session_manager: SessionManager) -> None:
         self.session = session_manager.session
+        # This is an unofficial public API key, not a private credential.
+        self.API_KEY = "W0g9oqdOrzuhEpIQ2qaTXimrzsfryKSZ"
 
     def get_folder_info(self, url):
-        response = self.session.get(f'https://www.smugmug.com/api/v2!weburilookup?APIKey=W0g9oqdOrzuhEpIQ2qaTXimrzsfryKSZ&WebUri={url}')
-        return response.json()
+        params = {
+            "APIKey": self.API_KEY,
+            "WebUri": url
+        }
+
+        response = self.session.get(f'https://api.smugmug.com/api/v2!weburilookup', params=params)
+        if response.status_code == 200:
+            return response.json()
+        return None
 
     def get_folder_node_id(self, folder_info):
-        return folder_info['Response']['Folder']['NodeID']
+        if folder_info:
+            return folder_info['Response']['Folder']['NodeID']
+        return None
 
     def get_url_name(self, folder_info):
-        return folder_info['Response']['Folder']['UrlName']
+        if folder_info:
+            return folder_info['Response']['Folder']['UrlName']
+        return None
 
     def get_albums(self, url_name):
         response = self.session.get(f'https://www.smugmug.com/api/v2/folder/user/fancybooth/{url_name}!albums?APIKey=W0g9oqdOrzuhEpIQ2qaTXimrzsfryKSZ')
-        return response.json()
+        if response.status_code == 200:
+            return response.json()
+        return None
 
     # only for not protected by password
     def get_albums_keys(self, albums):

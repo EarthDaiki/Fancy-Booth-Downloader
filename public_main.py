@@ -35,8 +35,11 @@ class MainPublicDL:
         '''
 
         folder_info = self.api.get_folder_info(url)
+        if folder_info is None: return
         folder_node_id = self.api.get_folder_node_id(folder_info)
+        if folder_node_id is None: return
         folder_children = self.api.get_folder_children(folder_node_id)
+        if folder_children is None: return
         albums_keys = self.api.get_albums_keys_almighty(folder_children)
         print(f'Albums Keys: {albums_keys}')
         uris_list = self.api.get_albums_uris_almighty(folder_children)
